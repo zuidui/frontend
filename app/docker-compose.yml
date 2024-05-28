@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  frontend:
+    container_name: ${IMAGE_NAME}
+    image: ${IMAGE_NAME}:${IMAGE_VERSION}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - ${APP_PORT}:80
+    env_file:
+      - .env
+    environment:
+      - APP_PORT=${APP_PORT}
+      - APP_HOST=${APP_HOST}

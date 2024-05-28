@@ -1,0 +1,21 @@
+name: CI-PRE
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+      
+jobs:
+  build-and-test:
+    name: Build, checkstyle and run unit and acceptance tests
+    runs-on: ubuntu-latest
+    steps:  
+      - name: Check out the repository
+        uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: make build
