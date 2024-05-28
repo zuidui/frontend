@@ -26,10 +26,6 @@ jobs:
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
-      - name: Set up Git committer identity
-        run: |
-          git config --global user.name "${{ github.event.head_commit.committer.name }}"
-          git config --global user.email "${{ github.event.head_commit.committer.email }}"   
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
@@ -37,7 +33,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}         
       - name: Publish to pre environment
         env:
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.ACCESS_TOKEN }}@github.com/${{ github.repository }}
           make publish-image-pre
