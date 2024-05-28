@@ -23,20 +23,26 @@ jobs:
     name: Publish to pre environment
     runs-on: ubuntu-latest
     needs: build
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      GIT_COMMITTER_NAME: ${{ github.actor }}
+      GIT_COMMITTER_EMAIL: ${{ github.actor }}@users.noreply.github.com
+      GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{env.GH_TOKEN}}
       - name: Set up Git committer identity
         run: |
-          git config --global user.name "${{ github.event.head_commit.committer.name }}"
-          git config --global user.email "${{ github.event.head_commit.committer.email }}"   
+          git config --global user.name "${{ env.GIT_COMMITTER_NAME }}"
+          git config --global user.email "${{ env.GIT_COMMITTER_EMAIL }}"  
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}     
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_TOKEN }}     
       - name: Publish to pre environment
         run: make publish-image-pre
           
