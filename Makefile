@@ -62,7 +62,7 @@ publish-image-pre: build ## Push the release candidate to the registry.
 
 .PHONY: publish-image-pro
 publish-image-pro:  ## Publish the latest release to the registry.
-	@echo "Publishing the latest image in the registry - $(REGISTRY_PRO):$(LATEST_VERSION)"
+	@echo "Publishing the image as release -  $(REGISTRY_PRO):$(LATEST_VERSION)"
 	@docker pull $(REGISTRY_PRE):$(LATEST_TAG)
 	@docker tag $(REGISTRY_PRE):$(LATEST_TAG) $(REGISTRY_PRO):latest
 	@docker tag $(REGISTRY_PRE):$(LATEST_TAG) $(REGISTRY_PRO):$(LATEST_VERSION)
