@@ -27,6 +27,7 @@ button {
     cursor: pointer;
 }
 
-#userData {
+#userData, #allUsersData {
     margin-top: 20px;
+    text-align: left;
 }
