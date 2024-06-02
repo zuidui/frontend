@@ -12,6 +12,4 @@ services:
     env_file:
       - .env
     environment:
-      - APP_PORT=${APP_PORT}
-      - APP_HOST=${APP_HOST}
       - API_GATEWAY_URL=${API_GATEWAY_URL}
