@@ -52,6 +52,7 @@ run:  ## Start the app in development mode.
 	@echo "Starting the app in development mode."
 	@docker-compose -f $(SRC_PATH)/docker-compose.yml up --build $(IMAGE_NAME)
 
+## TODO: Check if the latest version is the same as the image version error when creating tag in GitHub
 .PHONY: publish-image-pre
 publish-image-pre: build ## Push the release candidate to the registry.
 	@echo "Publishing the image as release candidate -  $(REGISTRY_PRE):$(IMAGE_VERSION)-rc$(NEXT_RC)"
@@ -59,8 +60,8 @@ publish-image-pre: build ## Push the release candidate to the registry.
 	@docker tag $(REGISTRY_PRE):$(IMAGE_VERSION) $(REGISTRY_PRE):$(IMAGE_VERSION)-latest
 	@docker push $(REGISTRY_PRE):$(IMAGE_VERSION)-rc$(NEXT_RC)
 	@docker push $(REGISTRY_PRE):$(IMAGE_VERSION)-latest
-	@git tag -a $(IMAGE_VERSION)-rc$(NEXT_RC) -m "Release candidate $(IMAGE_VERSION)-rc$(NEXT_RC)"
-	@git push origin $(IMAGE_VERSION)-rc$(NEXT_RC)
+#	@git tag -a $(IMAGE_VERSION)-rc$(NEXT_RC) -m "Release candidate $(IMAGE_VERSION)-rc$(NEXT_RC)"
+#	@git push origin $(IMAGE_VERSION)-rc$(NEXT_RC)
 
 ## TODO: Check if the latest version is the same as the image version error when creating release in GitHub
 .PHONY: publish-image-pro
