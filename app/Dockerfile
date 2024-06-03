@@ -5,6 +5,7 @@ FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 RUN rm -rf /etc/nginx/nginx.conf
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY public /usr/share/nginx/html
 COPY src /usr/share/nginx/html/src
 COPY .env /usr/share/nginx/html/.env
