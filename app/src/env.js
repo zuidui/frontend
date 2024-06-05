@@ -1,6 +1,12 @@
-export const loadEnvVariables = () => {
+const loadEnvVariables = () => {
     return fetch('/.env')
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to load .env file: ${response.statusText}`);
+            }
+            console.log('Environment variables loaded successfully');
+            return response.text();
+        })
         .then(text => {
             const envVariables = {};
             text.split('\n').forEach(line => {
@@ -10,5 +16,11 @@ export const loadEnvVariables = () => {
                 }
             });
             return envVariables;
+        })
+        .catch(error => {
+            console.error('Error loading environment variables:', error);
         });
 };
+
+// Make the function globally accessible
+window.loadEnvVariables = loadEnvVariables;

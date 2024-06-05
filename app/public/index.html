@@ -1,22 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Users</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>All Users</h1>
-        <button onclick="fetchAllUsers()">Fetch All Users</button>
-        <div id="allUsersData"></div>
-        
-        <h2>Get User by ID</h2>
-        <input type="text" id="userId" placeholder="Enter User ID">
-        <button onclick="fetchUserData()">Fetch User Data</button>
-        <div id="userData"></div>
+  <body>
+    <div id="header-placeholder"></div>
+    <div id="main-view">
+      <div class="menu_section">
+          <div class="row">
+              <input type="submit" value="Create a team" id="createTeamButton">
+          </div> 
+          <br>
+          <div class="row">
+              <a href="/join">
+                  <input type="submit" value="Join an existing team">
+              </a>
+          </div>
+      </div>
     </div>
-    <script type="module" src="/src/app.js"></script>
-</body>
+    <div id="create-team-view" style="display: none;">
+      <h2>Create a new team</h2>
+      <form id="teamForm">
+          <label for="teamName">Team name</label>
+          <input type="text" id="teamName" name="teamName" required>
+          <br>
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+          <br>
+          <button type="submit">Create</button>
+      </form>
+      <div id="formResponse"></div>
+      <div id="error-container">
+        <span id="error-message"></span>
+        <button id="backButton">Back</button>
+      </div>
+  </div>
+  <div id="footer-placeholder"></div>
+  <script src="/src/env.js" defer></script>
+  <script src="/src/app.js" defer></script>
+  <script src="/static/js/header.js" defer></script>
+  <script src="/static/js/footer.js" defer></script>  
+  <script src="/static/js/bootstrap.js"></script>        
+  </body>
 </html>
