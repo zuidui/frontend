@@ -7,6 +7,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     const backButton = document.getElementById('backButton');
     const teamForm = document.getElementById('teamForm');
 
+    const backButtonCreatePlayer = document.getElementById('backButtonCreatePlayer');
+    const createPlayerButton = document.getElementById('createPlayerButton');
+    const createPlayerForm = document.getElementById('createPlayerForm');
+
+    const backButtonIdentifyPlayer = document.getElementById('backButtonIdentifyPlayer');
+    const identifyPlayerButton = document.getElementById('identifyPlayerButton');
+    const identifyPlayerForm = document.getElementById('identifyPlayerForm');
+
     createTeamButton.addEventListener('click', function() {
         console.log('Create team button clicked');
         document.getElementById('main-view').style.display = 'none';
@@ -19,35 +27,77 @@ document.addEventListener('DOMContentLoaded', async function () {
         document.getElementById('main-view').style.display = 'block';
     });
 
+    backButtonCreatePlayer.addEventListener('click', function() {
+        console.log('Back button clicked');
+        document.getElementById('create-player-view').style.display = 'none';
+        document.getElementById('identification-view').style.display = 'block';
+    });
+
+    backButtonIdentifyPlayer.addEventListener('click', function() {
+        console.log('Back button clicked');
+        document.getElementById('identify-player-view').style.display = 'none';
+        document.getElementById('identification-view').style.display = 'block';
+    });
+
+    createPlayerButton.addEventListener('click', function() {
+        console.log('Create player button clicked');
+        document.getElementById('identification-view').style.display = 'none';
+        document.getElementById('create-player-view').style.display = 'block';
+    });
+
+    identifyPlayerButton.addEventListener('click', function() {
+        console.log('Identify player button clicked');
+        document.getElementById('identification-view').style.display = 'none';
+        document.getElementById('identify-player-view').style.display = 'block';
+    });
+
     teamForm.addEventListener('submit', function(event) {
         console.log('Team form submitted');
         event.preventDefault();
         const teamName = document.getElementById('teamName').value;
-        const password = document.getElementById('password').value;
-        createTeam(apiGatewayUrl, teamName, password);
+        const teamPassword = document.getElementById('teamPassword').value;
+        createTeam(apiGatewayUrl, teamName, teamPassword);
+    });
+
+    createPlayerForm.addEventListener('submit', function(event) {
+        console.log('Create player form submitted');
+        event.preventDefault();
+        const playerName = document.getElementById('newPlayerName').value;
+        const teamId = document.getElementById('teamId').textContent;
+        createPlayer(apiGatewayUrl, teamId, playerName);
+    });
+
+    identifyPlayerForm.addEventListener('submit', function(event) {
+        console.log('Identify player form submitted');
+        event.preventDefault();
+        const playerName = document.getElementById('existingPlayerName').value;
+        const teamId = document.getElementById('teamId').textContent;
+        identifyPlayer(apiGatewayUrl, teamId, playerName);
     });
 });
 
-async function createTeam(apiGatewayUrl, teamName, password) {
+async function createTeam(apiGatewayUrl, teamName, teamPassword) {
     try {
-        console.log(`Creating team: ${teamName}`);
-        const response = await fetch(`${apiGatewayUrl}/create-team`, {
+        const data = {teamName: teamName, teamPassword: teamPassword};
+        console.log(`Sending data to API Gateway URL: ${apiGatewayUrl}/team/create with data:`, data);
+        const response = await fetch(`${apiGatewayUrl}/team/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ teamName, password }),
+            body: JSON.stringify(data),
         });
-        const data = await response.json();
+        const responseData = await response.json();
         const formResponse = document.getElementById('formResponse');
         const errorMessage = document.getElementById('error-message');
         if (response.status === 200) {
             formResponse.innerHTML = '<p>Team created successfully!</p>';
             errorMessage.style.display = 'none'; // Ocultar mensaje de error
+            showIdentificationView(responseData.teamId, responseData.teamName);
         } else {
             formResponse.innerHTML = '';
             errorMessage.style.display = 'block'; // Mostrar mensaje de error
-            errorMessage.textContent = `Error creating team: ${data.message}`; // Establecer el texto del mensaje de error
+            errorMessage.textContent = `Error creating team: ${responseData.message}`; // Establecer el texto del mensaje de error
         }
     } catch (error) {
         console.error('Error creating team:', error);
@@ -58,71 +108,125 @@ async function createTeam(apiGatewayUrl, teamName, password) {
     }
 }
 
+async function createPlayer(apiGatewayUrl, teamId, playerName) {
+    try {
+        console.log(`Creating player: ${playerName} for team: ${teamId}`);
+        const response = await fetch(`${apiGatewayUrl}/team/player/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ teamId, playerName }),
+        });
+        const data = await response.json();
+        const formResponse = document.getElementById('formResponseCreatePlayer');
+        const errorMessage = document.getElementById('error-message-create-player');
+        if (response.status === 200) {
+            formResponse.innerHTML = '<p>Player created successfully!</p>';
+            errorMessage.style.display = 'none'; // Hide error message
+            showDashboardView(apiGatewayUrl, data.teamName, data.playerName, data.playerScore);
+        } else {
+            formResponse.innerHTML = '';
+            errorMessage.style.display = 'block'; // Show error message
+            errorMessage.textContent = `Error creating player: ${data.message}`; // Set error message text
+        }
+    } catch (error) {
+        console.error('Error creating player:', error);
+        document.getElementById('formResponseCreatePlayer').innerHTML = '';
+        const errorMessage = document.getElementById('error-message-create-player');
+        errorMessage.style.display = 'block'; // Show error message
+        errorMessage.textContent = 'Error creating player'; // Set error message text
+    }
+}
+
+async function identifyPlayer(apiGatewayUrl, teamId, playerName) {
+    try {
+        console.log(`Identifying player: ${playerName} for team: ${teamId}`);
+        const response = await fetch(`${apiGatewayUrl}/team/player/join`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ teamId, playerName }),
+        });
+        const data = await response.json();
+        const formResponse = document.getElementById('formResponseIdentifyPlayer');
+        const errorMessage = document.getElementById('error-message-identify-player');
+        if (response.status === 200) {
+            formResponse.innerHTML = '<p>Player identified successfully!</p>';
+            errorMessage.style.display = 'none'; // Hide error message
+            showDashboardView(apiGatewayUrl, data.teamName, data.playerName, data.playerScore);
+        } else {
+            formResponse.innerHTML = '';
+            errorMessage.style.display = 'block'; // Show error message
+            errorMessage.textContent = `Error identifying player: ${data.message}`; // Set error message text
+        }
+    } catch (error) {
+        console.error('Error identifying player:', error);
+        document.getElementById('formResponseIdentifyPlayer').innerHTML = '';
+        const errorMessage = document.getElementById('error-message-identify-player');
+        errorMessage.style.display = 'block'; // Show error message
+        errorMessage.textContent = 'Error identifying player'; // Set error message text
+    }
+}
+
+function showIdentificationView(teamId, teamName) {
+    document.getElementById('main-view').style.display = 'none';
+    document.getElementById('create-team-view').style.display = 'none';
+    document.getElementById('identification-view').style.display = 'block';
+    document.getElementById('teamId').textContent = teamId;
+    document.getElementById('teamName').textContent = teamName;
+}
+
+async function showDashboardView(apiGatewayUrl, teamId, playerName) {
+    try {
+        console.log(`Fetching team data for dashboard: ${teamId}`);
+        const response = await fetch(`${apiGatewayUrl}/team/${teamId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = await response.json();
+        if (response.status === 200) {
+            document.getElementById('identification-view').style.display = 'none';
+            document.getElementById('dashboard-view').style.display = 'block';
+            document.getElementById('dashboardTeamName').textContent = data.teamName;
+
+            const playersList = document.getElementById('playersList');
+            playersList.innerHTML = '';
+            data.players.forEach(player => {
+                const playerItem = document.createElement('div');
+                playerItem.className = 'player-item';
+                playerItem.innerHTML = `
+                    <p>Player Name: ${player.name} - Score: ${player.score}</p>
+                    <label for="score-${player.id}">New Score:</label>
+                    <input type="number" id="score-${player.id}" name="score-${player.id}" min="0" max="100">
+                `;
+                playersList.appendChild(playerItem);
+            });
+
+            const createMatchButton = document.getElementById('createMatchButton');
+            const ratePlayersButton = document.getElementById('ratePlayersButton');
+
+            createMatchButton.addEventListener('click', function() {
+                // Implement create match functionality
+                console.log('Create match button clicked');
+            });
+
+            ratePlayersButton.addEventListener('click', function() {
+                // Implement rate players functionality
+                console.log('Rate players button clicked');
+            });
+        } else {
+            console.error('Error fetching team data for dashboard:', data.message);
+        }
+    } catch (error) {
+        console.error('Error fetching team data for dashboard:', error);
+    }
+}
+
 
 window.createTeam = createTeam;
-
-async function fetchUserData() {
-    const userId = document.getElementById('userId').value;
-    if (!userId) {
-        alert("Please enter a User ID");
-        return;
-    }
-
-    console.log(`Fetching data for user ID: ${userId}`);
-
-    try {
-        const response = await fetch(`${apiGatewayUrl}/users/${userId}`);
-        console.log(`Request URL: ${apiGatewayUrl}/users/${userId}`);
-        const data = await response.json();
-        console.log("Response received:", data);
-
-        const userDataDiv = document.getElementById('userData');
-        if (response.status !== 200) {
-            console.error("Error response:", data);
-            userDataDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-        } else {
-            userDataDiv.innerHTML = `
-                <h2>User Details</h2>
-                <p>ID: ${data.id}</p>
-                <p>Name: ${data.name}</p>
-                <p>Email: ${data.email}</p>
-                <p>Password: ${data.password}</p>
-            `;
-        }
-    } catch (error) {
-        console.error("Error fetching user data:", error);
-    }
-}
-
-async function fetchAllUsers() {
-    console.log("Fetching all users");
-
-    try {
-        const response = await fetch(`${apiGatewayUrl}/users`);
-        console.log(`Request URL: ${apiGatewayUrl}/users`);
-        const data = await response.json();
-        console.log("Response received:", data);
-
-        const allUsersDataDiv = document.getElementById('allUsersData');
-        if (response.status !== 200) {
-            console.error("Error response:", data);
-            allUsersDataDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-        } else {
-            allUsersDataDiv.innerHTML = '<h2>All Users</h2>';
-            data.forEach(user => {
-                allUsersDataDiv.innerHTML += `
-                    <p>ID: ${user.id}</p>
-                    <p>Name: ${user.name}</p>
-                    <p>Email: ${user.email}</p>
-                    <p>Password: ${user.password}</p>
-                    <hr>
-                `;
-            });
-        }
-    } catch (error) {
-        console.error("Error fetching all users data:", error);
-    }
-}
-
-window.fetchUserData = fetchUserData;
-window.fetchAllUsers = fetchAllUsers;
+window.createPlayer = createPlayer;
+window.identifyPlayer = identifyPlayer;
