@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 async function createTeam(apiGatewayUrl, teamName, teamPassword) {
     try {
-        const data = {teamName: teamName, teamPassword: teamPassword};
+        const data = {team_name: teamName, team_password: teamPassword};
         console.log(`Sending data to API Gateway URL: ${apiGatewayUrl}/team/create with data:`, data);
         const response = await fetch(`${apiGatewayUrl}/team/create`, {
             method: 'POST',
@@ -93,7 +93,7 @@ async function createTeam(apiGatewayUrl, teamName, teamPassword) {
         if (response.status === 200) {
             formResponse.innerHTML = '<p>Team created successfully!</p>';
             errorMessage.style.display = 'none'; // Ocultar mensaje de error
-            showIdentificationView(responseData.teamId, responseData.teamName);
+            showIdentificationView(responseData.team_id, responseData.team_name);
         } else {
             formResponse.innerHTML = '';
             errorMessage.style.display = 'block'; // Mostrar mensaje de error
