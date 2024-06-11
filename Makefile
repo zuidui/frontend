@@ -2,7 +2,6 @@
 
 include app/.env
 
-SRC_PATH=./app
 export REGISTRY_PRE=$(DOCKERHUB_USERNAME)/$(IMAGE_NAME)-dev
 export REGISTRY_PRO=$(DOCKERHUB_USERNAME)/$(IMAGE_NAME)
 export TAGS=$(shell curl -s "https://hub.docker.com/v2/repositories/${REGISTRY_PRE}/tags/" | jq -r '.results[].name'| grep -E 'rc[0-9]{2}' | tr '\n' ' ')
@@ -39,26 +38,27 @@ show-env:  ## Show the environment variables.
 
 .PHONY: clean
 clean:  ## Clean the app.
-	@echo "Cleaning the docker image."
-	@docker-compose -f $(SRC_PATH)/docker-compose.yml down
+	@echo "Cleaning $(IMAGE_NAME) docker image."
+	docker-compose -f ./app/docker-compose.yml down --rmi all --volumes
 
 .PHONY: build
 build:  ## Build the app.
 	@echo "Building $(IMAGE_NAME) docker image as $(IMAGE_NAME):$(IMAGE_VERSION)."
-	@docker build -t $(REGISTRY_PRE):$(IMAGE_VERSION) $(SRC_PATH)
+	docker build -t $(REGISTRY_PRE):$(IMAGE_VERSION) ./app
 
 .PHONY: run
 run:  ## Start the app in development mode.
-	@echo "Starting the app in development mode."
-	@docker-compose -f $(SRC_PATH)/docker-compose.yml up --build $(IMAGE_NAME)
+	@echo "Starting $(IMAGE_NAME) in development mode."
+	docker-compose -f ./app/docker-compose.yml up --build $(IMAGE_NAME) --remove-orphans
+
 
 .PHONY: publish-image-pre
 publish-image-pre: build ## Push the release candidate to the registry.
 	@echo "Publishing the image as release candidate -  $(REGISTRY_PRE):$(IMAGE_VERSION)-rc$(NEXT_RC)"
 	@docker tag $(REGISTRY_PRE):$(IMAGE_VERSION) $(REGISTRY_PRE):$(IMAGE_VERSION)-rc$(NEXT_RC)
-	@docker tag $(REGISTRY_PRE):$(IMAGE_VERSION) $(REGISTRY_PRE):$(IMAGE_VERSION)-latest
+	@docker tag $(REGISTRY_PRE):$(IMAGE_VERSION) $(REGISTRY_PRE):latest
 	@docker push $(REGISTRY_PRE):$(IMAGE_VERSION)-rc$(NEXT_RC)
-	@docker push $(REGISTRY_PRE):$(IMAGE_VERSION)-latest
+	@docker push $(REGISTRY_PRE):latest
 
 ## TODO: Check if the latest version is the same as the image version error when creating release in GitHub
 .PHONY: publish-image-pro
@@ -74,4 +74,3 @@ publish-image-pro:  ## Publish the latest release to the registry.
 ##@if [ "$(LATEST_VERSION)" == "$(IMAGE_VERSION)" ]; then git release delete $(LATEST_VERSION); fi
 ##@gh release create $(LATEST_VERSION) -t $(LATEST_VERSION) -n $(LATEST_VERSION)
 ##@git push origin $(LATEST_VERSION)	
-

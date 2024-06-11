@@ -9,7 +9,18 @@ services:
       dockerfile: Dockerfile
     ports:
       - ${APP_PORT}:80
+    volumes:
+      - ./public:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/default.conf
+      - ./src:/usr/share/nginx/html/src
+      - ./.env:/usr/share/nginx/html/.env
     env_file:
       - .env
     environment:
       - API_GATEWAY_URL=${API_GATEWAY_URL}
+    networks:
+      - zuidui
+
+networks:
+  zuidui:
+    driver: bridge

@@ -20,11 +20,11 @@
     <div id="create-team-view" style="display: none;">
       <h2>Create a new team</h2>
       <form id="teamForm">
-          <label for="teamName">Team name</label>
-          <input type="text" id="teamName" name="teamName" required>
+          <label for="teamNameInput">Team name</label>
+          <input type="text" id="teamNameInput" name="teamName" required>
           <br>
-          <label for="teamPassword">Password</label>
-          <input type="password" id="teamPassword" name="teamPassword" required>
+          <label for="teamPasswordInput">Password</label>
+          <input type="password" id="teamPasswordInput" name="teamPassword" required>
           <br>
           <button type="submit">Create</button>
       </form>
@@ -33,29 +33,26 @@
         <span id="error-message"></span>
         <button id="backButton">Back</button>
       </div>
+    </div>
 
-    <!-- Identification View -->
     <div id="identification-view" style="display: none;">
-      <h2>Team Identification</h2>
-      <p>Team ID: <span id="teamId"></span></p>
-      <p>Team Name: <span id="teamName"></span></p>
-
+      <h2>Welcome to team <span id="teamNameDisplay"></span></h2>
+      <p>Identify yourself as a player or create a new player</p>
       <div class="menu_section">
         <div class="row">
-          <button id="createPlayerButton">Create a new player</button>
+          <button id="createPlayerButton">Create</button>
         </div>
         <br>
         <div class="row">
-          <button id="identifyPlayerButton">Identify as an existing player</button>
+          <button id="identifyPlayerButton">Identify</button>
         </div>
       </div>
 
-      <!-- Create Player View -->
       <div id="create-player-view" style="display: none;">
         <h2>Create a new player</h2>
         <form id="createPlayerForm">
-          <label for="newPlayerName">Player name</label>
-          <input type="text" id="newPlayerName" name="newPlayerName" required>
+          <label for="newPlayerNameInput">Player name</label>
+          <input type="text" id="newPlayerNameInput" name="newPlayerName" required>
           <br>
           <button type="submit">Create</button>
         </form>
@@ -66,12 +63,11 @@
         </div>
       </div>
 
-      <!-- Identify Player View -->
       <div id="identify-player-view" style="display: none;">
         <h2>Identify as an existing player</h2>
         <form id="identifyPlayerForm">
-          <label for="existingPlayerName">Player name</label>
-          <input type="text" id="existingPlayerName" name="existingPlayerName" required>
+          <label for="existingPlayerNameInput">Player name</label>
+          <input type="text" id="existingPlayerNameInput" name="existingPlayerName" required>
           <br>
           <button type="submit">Identify</button>
         </form>
@@ -83,10 +79,9 @@
       </div>
     </div>
 
-    <!-- Dashboard View -->
     <div id="dashboard-view" style="display: none;">
       <h2>Dashboard</h2>
-      <p>Team Name: <span id="dashboardTeamName"></span></p>
+      <p>Team Name: <span id="dashboardTeamNameDisplay"></span></p>
       <h3>Players</h3>
       <div id="playersList"></div>
       <button id="createMatchButton">Create match</button>
