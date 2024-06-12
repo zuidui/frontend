@@ -37,7 +37,6 @@
 
     <div id="identification-view" style="display: none;">
       <h2>Welcome to team <span id="teamNameDisplay"></span></h2>
-      <p>Identify yourself as a player or create a new player</p>
       <div class="menu_section">
         <div class="row">
           <button id="createPlayerButton">Create</button>
@@ -47,18 +46,20 @@
           <button id="identifyPlayerButton">Identify</button>
         </div>
       </div>
+    </div>
 
       <div id="create-player-view" style="display: none;">
         <h2>Create a new player</h2>
         <form id="createPlayerForm">
-          <label for="newPlayerNameInput">Player name</label>
-          <input type="text" id="newPlayerNameInput" name="newPlayerName" required>
-          <br>
+          <div class="row">
+            <label for="newPlayerNameInput">Player name</label>
+            <input type="text" id="newPlayerNameInput" name="newPlayerName" required>  
+          </div>
           <button type="submit">Create</button>
         </form>
-        <div id="formResponseCreatePlayer"></div>
-        <div id="error-container-create-player">
-          <span id="error-message-create-player"></span>
+        <div id="formResponse"></div>
+          <div id="error-container">
+          <span id="error-message"></span>
           <button id="backButtonCreatePlayer">Back</button>
         </div>
       </div>
@@ -77,7 +78,6 @@
           <button id="backButtonIdentifyPlayer">Back</button>
         </div>
       </div>
-    </div>
 
     <div id="dashboard-view" style="display: none;">
       <h2>Dashboard</h2>

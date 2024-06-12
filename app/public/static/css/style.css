@@ -148,6 +148,66 @@ header, h1, h2, h3, h4, h5, h6 {
   background-color: #3AAFA9; /* Hover color */
 }
 
+/* Create Player Form */
+#create-player-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full height */
+  background-color: #f2f2f2; /* Light gray background */
+}
+
+#create-player-view h2 {
+  margin-bottom: 20px;
+  color: #2B7A78; /* Primary color */
+}
+
+#create-player-view form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ccc; /* Light border */
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff; /* White background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for modern look */
+  width: 90%;
+  max-width: 600px; /* Max width for form */
+  margin: 0 auto; /* Center form */
+}
+
+#create-player-view label,
+#create-player-view input {
+  margin: 10px 0; /* Space between elements */
+  width: 100%; /* Full width */
+}
+
+#create-player-view input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+#create-player-view button {
+  margin-top: 20px; /* Space above button */
+  padding: 10px 20px;
+  background-color: #2B7A78; /* Primary color */
+  color: #fff; /* White text */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  width: auto; /* Adjust width */
+  min-width: 120px; /* Min width */
+  max-width: 200px; /* Max width */
+}
+
+#create-player-view button:hover {
+  background-color: #3AAFA9; /* Hover color */
+}
+
 #error-container {
   display: flex;
   flex-direction: column;

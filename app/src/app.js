@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('createPlayerForm').addEventListener('submit', async function (event) {
         event.preventDefault();
         const playerName = document.getElementById('newPlayerNameInput').value;
-        const teamId = document.getElementById('teamIdDisplay').textContent;
+        const teamId =  sessionStorage.getItem('teamId');
         await createPlayer(apiGatewayUrl, teamId, playerName);
     });
 
@@ -115,11 +115,11 @@ function showIdentifyPlayerView() {
 }
 
 // Show the dashboard view
-async function showDashboardView(apiGatewayUrl, teamId, playerName) {
+async function showDashboardView(apiGatewayUrl, teamId, playerName, teamName) {
     hideAllViews();
     document.getElementById('dashboard-view').style.display = 'block';
     sessionStorage.setItem('currentView', 'dashboard-view');
-    // Fetch and display team data for the dashboard
+    // TODO: Implement the dashboard view
 }
 
 // Create a new team
@@ -166,21 +166,24 @@ async function createPlayer(apiGatewayUrl, teamId, playerName) {
         const responseData = await response.json();
         const formResponse = document.getElementById('formResponseCreatePlayer');
         const errorMessage = document.getElementById('error-message-create-player');
-        if (response.status === 200) {
+        if (response.ok) {
             formResponse.innerHTML = '<p>Player created successfully!</p>';
             errorMessage.style.display = 'none';
-            showDashboardView(apiGatewayUrl, responseData.teamId, responseData.playerName);
+            showDashboardView(apiGatewayUrl, responseData.teamName, responseData.playerName, responseData.teamId);
         } else {
             formResponse.innerHTML = '';
             errorMessage.style.display = 'block';
-            errorMessage.textContent = `Error creating player: ${responseData.message}`;
+            errorMessage.textContent = `Error creating player: ${responseData.message || 'Unknown error'}`;
+            if (responseData.errors) {
+                errorMessage.textContent += `: ${responseData.errors.join(', ')}`;
+            }        
         }
     } catch (error) {
         console.error('Error creating player:', error);
         document.getElementById('formResponseCreatePlayer').innerHTML = '';
-        document.getElementById('error-message-create-player').style.display = 'block';
-        document.getElementById('error-message-create-player').textContent = 'Error creating player';
-    }
+        document.getElementById('error-message').style.display = 'block';
+        document.getElementById('error-message').textContent = 'Error creating player';
+   }
 }
 
 // Identify an existing player
