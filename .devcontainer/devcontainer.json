@@ -22,10 +22,11 @@
         "API_GATEWAY_URL": "${localEnv:API_GATEWAY_URL}"
     },
     "mounts": [
+        "source=${localWorkspaceFolder}/.devcontainer,target=/workspace/.devcontainer,type=bind,consistency=cached",
+        "source=${localWorkspaceFolder}/.vscode,target=/workspace/.vscode,type=bind,consistency=cached",
         "source=${localWorkspaceFolder}/app/public,target=/usr/share/nginx/html,type=bind,consistency=cached",
         "source=${localWorkspaceFolder}/app/src,target=/usr/share/nginx/html/src,type=bind,consistency=cached",
-        "source=${localWorkspaceFolder}/.devcontainer,target=/usr/share/nginx/html/.devcontainer,type=bind,consistency=cached",
-        "source=${localWorkspaceFolder}/.vscode,target=/usr/share/nginx/html/.vscode,type=bind,consistency=cached"
+        "source=${localWorkspaceFolder}/app/nginx.conf,target=/etc/nginx/default.conf,type=bind,consistency=cached"
     ],    
     "forwardPorts": [8080]
 }

@@ -49,7 +49,7 @@ build:  ## Build the app.
 .PHONY: run
 run:  ## Start the app in development mode.
 	@echo "Starting $(IMAGE_NAME) in development mode."
-	docker-compose -f ./app/docker-compose.yml up --build $(IMAGE_NAME) --remove-orphans
+	docker-compose -f ./app/docker-compose.yml up --build $(IMAGE_NAME)
 
 
 .PHONY: publish-image-pre

@@ -39,11 +39,11 @@
       <h2>Welcome to team <span id="teamNameDisplay"></span></h2>
       <div class="menu_section">
         <div class="row">
-          <button id="createPlayerButton">Create</button>
+          <button id="createPlayerButton">New player</button>
         </div>
         <br>
         <div class="row">
-          <button id="identifyPlayerButton">Identify</button>
+          <button id="identifyPlayerButton">Join team</button>
         </div>
       </div>
     </div>
@@ -72,20 +72,33 @@
           <br>
           <button type="submit">Identify</button>
         </form>
-        <div id="formResponseIdentifyPlayer"></div>
-        <div id="error-container-identify-player">
-          <span id="error-message-identify-player"></span>
+        <div id="formResponse"></div>
+        <div id="error-container">
+          <span id="error-message"></span>
           <button id="backButtonIdentifyPlayer">Back</button>
         </div>
       </div>
 
     <div id="dashboard-view" style="display: none;">
-      <h2>Dashboard</h2>
-      <p>Team Name: <span id="dashboardTeamNameDisplay"></span></p>
+      <h2><span id="teamNameDisplay"></span> dashboard</h2>
       <h3>Players</h3>
-      <div id="playersList"></div>
-      <button id="createMatchButton">Create match</button>
-      <button id="ratePlayersButton">Rate players</button>
+      <div id="playersList">
+        <ul id="playersListUl"></ul>
+
+      </div>
+      <div class="menu_section">
+        <div class="row">
+          <button id="createMatchButton">Create match</button>
+        </div>
+        <br>
+        <div class="row">
+          <button id="ratePlayersButton">Rate players</button>
+        </div>
+        <div id="formResponse"></div>
+        <div id="error-container">
+          <span id="error-message"></span>
+        </div>  
+      </div>  
     </div>
 
     <div id="footer-placeholder"></div>

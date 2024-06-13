@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const env = await loadEnvVariables();
-    const apiGatewayUrl = env.API_GATEWAY_URL;
-    console.log(`API Gateway URL loaded: ${apiGatewayUrl}`);
+    const hostName = env.HOST_NAME || 'localhost';
+    const hostPort = env.APP_PORT;
+    const apiGatewayUrl = `http://${hostName}:${hostPort}/api/v1`;
+    console.log('API Gateway URL:', apiGatewayUrl);
 
     // Check if it's the first load after starting the Docker container
     if (!sessionStorage.getItem('isInitialized')) {
@@ -119,7 +121,11 @@ async function showDashboardView(apiGatewayUrl, teamId, playerName, teamName) {
     hideAllViews();
     document.getElementById('dashboard-view').style.display = 'block';
     sessionStorage.setItem('currentView', 'dashboard-view');
-    // TODO: Implement the dashboard view
+   if (teamName) document.getElementById('teamNameDisplay').textContent = teamName;
+    if (playerName) document.getElementById('playerNameDisplay').textContent = playerName;
+    sessionStorage.setItem('teamId', teamId);
+    sessionStorage.setItem('teamName', teamName);
+    sessionStorage.setItem('playerName', playerName);
 }
 
 // Create a new team
@@ -157,15 +163,15 @@ async function createTeam(apiGatewayUrl, teamName, teamPassword) {
 // Create a new player
 async function createPlayer(apiGatewayUrl, teamId, playerName) {
     try {
-        const data = { teamId, playerName };
+        const data = { player_team_id: teamId, player_name: playerName };
         const response = await fetch(`${apiGatewayUrl}/team/player/create`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
         });
         const responseData = await response.json();
-        const formResponse = document.getElementById('formResponseCreatePlayer');
-        const errorMessage = document.getElementById('error-message-create-player');
+        const formResponse = document.getElementById('formResponse');
+        const errorMessage = document.getElementById('error-message');
         if (response.ok) {
             formResponse.innerHTML = '<p>Player created successfully!</p>';
             errorMessage.style.display = 'none';
@@ -180,7 +186,7 @@ async function createPlayer(apiGatewayUrl, teamId, playerName) {
         }
     } catch (error) {
         console.error('Error creating player:', error);
-        document.getElementById('formResponseCreatePlayer').innerHTML = '';
+        document.getElementById('formResponse').innerHTML = '';
         document.getElementById('error-message').style.display = 'block';
         document.getElementById('error-message').textContent = 'Error creating player';
    }
