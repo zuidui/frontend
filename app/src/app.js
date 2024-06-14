@@ -117,15 +117,17 @@ function showIdentifyPlayerView() {
 }
 
 // Show the dashboard view
-async function showDashboardView(apiGatewayUrl, teamId, playerName, teamName) {
+async function showDashboardView(apiGatewayUrl, teamId, teamName, playerName, playerScore) {
     hideAllViews();
     document.getElementById('dashboard-view').style.display = 'block';
     sessionStorage.setItem('currentView', 'dashboard-view');
    if (teamName) document.getElementById('teamNameDisplay').textContent = teamName;
     if (playerName) document.getElementById('playerNameDisplay').textContent = playerName;
+    if (playerScore) document.getElementById('playerScoreDisplay').textContent = playerScore;
     sessionStorage.setItem('teamId', teamId);
     sessionStorage.setItem('teamName', teamName);
     sessionStorage.setItem('playerName', playerName);
+    sessionStorage.setItem('playerScore', playerScore);
 }
 
 // Create a new team
@@ -175,7 +177,7 @@ async function createPlayer(apiGatewayUrl, teamId, playerName) {
         if (response.ok) {
             formResponse.innerHTML = '<p>Player created successfully!</p>';
             errorMessage.style.display = 'none';
-            showDashboardView(apiGatewayUrl, responseData.teamName, responseData.playerName, responseData.teamId);
+            showDashboardView(apiGatewayUrl, responseData.teamName, responseData.playerName, responseData.playerScore);
         } else {
             formResponse.innerHTML = '';
             errorMessage.style.display = 'block';

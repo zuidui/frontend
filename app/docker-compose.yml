@@ -14,10 +14,6 @@ services:
       - ./nginx.conf:/etc/nginx/default.conf
       - ./src:/usr/share/nginx/html/src
       - ./.env:/usr/share/nginx/html/.env
-    env_file:
-      - .env
-    environment:
-      - API_GATEWAY_URL=${API_GATEWAY_URL}
     networks:
       - zuidui
 
