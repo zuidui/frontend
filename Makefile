@@ -71,7 +71,6 @@ publish-image-pro:  ## Publish the latest release to the registry.
 	@docker push $(REGISTRY_PRO):$(LATEST_VERSION)
 	@docker push $(REGISTRY_PRO):latest
 	@if [ "$(GH_TAG)" = "$(IMAGE_VERSION)" ]; then \
-		echo "Creating release in GitHub"; \
 	    git tag -d $(LATEST_VERSION); \
 		git push origin --delete $(LATEST_VERSION); \
 	    gh release delete $(LATEST_VERSION) --yes; \

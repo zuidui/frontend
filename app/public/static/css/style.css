@@ -1,65 +1,64 @@
 /* Base Styles */
 html, body {
   font-family: "Dosis", sans-serif;
-  font-weight: normal;
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   scroll-behavior: smooth;
-  background-color: #ffffff; /* Light background */
-  color: #333333; /* Dark text */
+  background-color: #f2f2f2; /* Set background color to light gray */
+  color: #333333;
 }
 
 a {
   text-decoration: none;
-  color: #F9A826; /* Accent color */
+  color: #F9A826;
 }
 
 a:hover {
-  color: #3AAFA9; /* Hover color */
+  color: #3AAFA9;
 }
 
 header, h1, h2, h3, h4, h5, h6 {
-  text-align: center; /* Center all headings */
-  color: #2B7A78; /* Primary color */
+  text-align: center;
+  color: #2B7A78;
 }
 
 .header_section {
-  background-color: #2B7A78; /* Primary color */
-  color: #FFFFFF; /* White text */
+  background-color: #2B7A78;
+  color: #FFFFFF;
   display: flex;
   align-items: center;
-  justify-content: center; /* Center horizontally */
+  justify-content: center;
   padding: 10px 20px;
-  margin: 5px 0 10px;
+  margin: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .header_section h3 {
   margin: 0;
   font-weight: bold;
   font-size: 40px;
-  color: #FFFFFF; /* Ensure text is white */
+  color: #FFFFFF;
 }
 
 .header_section .logo-link {
-  color: inherit; /* Inherit color */
-  text-decoration: none; /* Remove underline */
+  color: inherit;
 }
 
 .header_section .logo-letter {
-  color: #F9A826 !important; /* Apply accent color */
+  color: #F9A826 !important;
 }
 
 .icon_header {
-  color: #FFFFFF; /* White icon */
+  color: #FFFFFF;
   font-size: 2em;
 }
 
 /* Footer Section */
 .footer_section {
-  color: #FFFFFF; /* White text */
-  background-color: #2B7A78; /* Primary color */
+  color: #FFFFFF;
+  background-color: #2B7A78;
   text-align: center;
   position: fixed;
   bottom: 0;
@@ -69,10 +68,72 @@ header, h1, h2, h3, h4, h5, h6 {
   font-size: 0.9em;
 }
 
+/* Common View Styles */
+.common-view {
+  display: none; /* Hide all views initially */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 60px); /* Adjust height to account for the header */
+  background-color: inherit; /* Inherit background color from body */
+  margin: 0;
+  padding: 20px;
+}
+
+.common-view h2 {
+  margin-bottom: 20px;
+  color: #2B7A78;
+}
+
+.common-view form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff; /* White background for form */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.common-view label,
+.common-view input {
+  margin: 10px 0;
+  width: 100%;
+}
+
+.common-view input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.common-view button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #2B7A78;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  width: auto;
+  min-width: 120px;
+  max-width: 200px;
+}
+
+.common-view button:hover {
+  background-color: #3AAFA9;
+}
+
 /* Menu Section */
 .menu_section {
-  color: #222222; /* Dark text */
-  background-color: #FFFFFF; /* Light background */
+  color: #222222;
+  background-color: inherit; /* Inherit background color from common-view */
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -88,141 +149,157 @@ header, h1, h2, h3, h4, h5, h6 {
   margin: 20px 0;
 }
 
-/* Create Team Form */
-#create-team-view {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh; /* Full height */
-  background-color: #f2f2f2; /* Light gray background */
+/* Main View Buttons */
+#main-view .menu_section .row,
+.identification-buttons .row {
+  margin: 10px 0;
 }
 
-#create-team-view h2 {
-  margin-bottom: 20px;
-  color: #2B7A78; /* Primary color */
-}
-
-#create-team-view form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid #ccc; /* Light border */
-  padding: 20px;
-  border-radius: 10px;
-  background-color: #fff; /* White background */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for modern look */
-  width: 90%;
-  max-width: 600px; /* Max width for form */
-  margin: 0 auto; /* Center form */
-}
-
-#create-team-view label,
-#create-team-view input {
-  margin: 10px 0; /* Space between elements */
-  width: 100%; /* Full width */
-}
-
-#create-team-view input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-#create-team-view button {
-  margin-top: 20px; /* Space above button */
+#main-view button,
+.identification-buttons button {
   padding: 10px 20px;
-  background-color: #2B7A78; /* Primary color */
-  color: #fff; /* White text */
+  background-color: #2B7A78;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+#main-view button:hover,
+.identification-buttons button:hover {
+  background-color: #3AAFA9;
+}
+
+/* Identification View */
+#identification-view p {
+  font-size: 1.2rem;
+  color: #333333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Back Button */
+#backButtonCreateTeam,
+#backButtonJoinTeam,
+#backButtonCreatePlayer,
+#backButtonIdentifyPlayer {
+  display: block;
+  padding: 10px 20px;
+  background-color: #2B7A78;
+  color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
-  width: auto; /* Adjust width */
-  min-width: 120px; /* Min width */
-  max-width: 200px; /* Max width */
+  width: auto;
+  min-width: 120px;
+  max-width: 200px;
+  margin-top: 20px; /* Add margin to the top */
+  text-align: center; /* Center text */
 }
 
-#create-team-view button:hover {
-  background-color: #3AAFA9; /* Hover color */
-}
-
-/* Create Player Form */
-#create-player-view {
+#backButtonCreateTeam-container,
+#backButtonJoinTeam-container,
+#backButtonCreatePlayer-container,
+#backButtonIdentifyPlayer-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 100vh; /* Full height */
-  background-color: #f2f2f2; /* Light gray background */
+  width: 100%;
+  margin-top: 20px; /* Add margin to the top */
 }
 
-#create-player-view h2 {
-  margin-bottom: 20px;
-  color: #2B7A78; /* Primary color */
+#backButtonCreateTeam:hover,
+#backButtonJoinTeam:hover,
+#backButtonCreatePlayer:hover,
+#backButtonIdentifyPlayer:hover {
+  background-color: #3AAFA9;
 }
 
-#create-player-view form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid #ccc; /* Light border */
-  padding: 20px;
-  border-radius: 10px;
-  background-color: #fff; /* White background */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for modern look */
+/* Table Styles */
+#playerTable {
   width: 90%;
-  max-width: 600px; /* Max width for form */
-  margin: 0 auto; /* Center form */
+  max-width: 800px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#create-player-view label,
-#create-player-view input {
-  margin: 10px 0; /* Space between elements */
-  width: 100%; /* Full width */
+#playerTable th, #playerTable td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
 }
 
-#create-player-view input {
-  padding: 10px;
+#playerTable th {
+  background-color: #2B7A78;
+  color: white;
+}
+
+#playerTable td {
+  background-color: white;
+}
+
+#playerTable td input[type="number"] {
+  width: 100%;
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 1rem;
 }
 
-#create-player-view button {
-  margin-top: 20px; /* Space above button */
-  padding: 10px 20px;
-  background-color: #2B7A78; /* Primary color */
-  color: #fff; /* White text */
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  width: auto; /* Adjust width */
-  min-width: 120px; /* Min width */
-  max-width: 200px; /* Max width */
+#playerTable td.read-only {
+  color: #999;
 }
 
-#create-player-view button:hover {
-  background-color: #3AAFA9; /* Hover color */
-}
-
-#error-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+#ratePlayersButton {
   margin-top: 20px;
 }
 
-#error-message {
-  margin-bottom: 10px;
-  color: red;
-  display: none; /* Initially hidden */
+/* Join Team View */
+#join-team-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full height */
+  background-color: #f2f2f2; /* Light gray background */
 }
 
-#backButton {
-  display: block;
+#join-team-view h2 {
+  margin-bottom: 20px;
+  color: #2B7A78; /* Primary color */
+}
+
+#join-team-view form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ccc; /* Light border */
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff; /* White background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for modern look */
+  width: 90%;
+  max-width: 600px; /* Max width for form */
+  margin: 0 auto; /* Center form */
+}
+
+#join-team-view label,
+#join-team-view input {
+  margin: 10px 0; /* Space between elements */
+  width: 100%; /* Full width */
+}
+
+#join-team-view input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+#join-team-view button {
+  margin-top: 20px; /* Space above button */
   padding: 10px 20px;
   background-color: #2B7A78; /* Primary color */
   color: #fff; /* White text */
@@ -235,20 +312,29 @@ header, h1, h2, h3, h4, h5, h6 {
   max-width: 200px; /* Max width */
 }
 
-#backButton:hover {
+#join-team-view button:hover {
   background-color: #3AAFA9; /* Hover color */
 }
 
-/* Error Page Styles */
+
+/* Feedback messages styles */
+#create-team-error-message,
+#create-player-error-message,
+#join-team-error-message,
+#identify-player-error-message
+{
+  margin-bottom: 10px;
+  color: red;
+  display: none;
+}
+
 .error-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Align at top */
-  height: 100vh; /* Full height */
+  justify-content: flex-start;
   text-align: center;
-  color: #333333; /* Dark text */
-  padding-top: 20px; /* Add some top margin */
+  padding-top: 20px;
 }
 
 .error-container .row {
@@ -258,7 +344,7 @@ header, h1, h2, h3, h4, h5, h6 {
 .error-container p {
   font-size: 1.5rem;
   margin-bottom: 20px;
-  color: #2B7A78; /* Primary color */
+  color: #2B7A78;
 }
 
 .error-container img {
