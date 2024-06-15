@@ -1,22 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Users</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>All Users</h1>
-        <button onclick="fetchAllUsers()">Fetch All Users</button>
-        <div id="allUsersData"></div>
-        
-        <h2>Get User by ID</h2>
-        <input type="text" id="userId" placeholder="Enter User ID">
-        <button onclick="fetchUserData()">Fetch User Data</button>
-        <div id="userData"></div>
+  <body>
+    <div id="header-placeholder"></div>
+    
+    <div id="main-view">
+      <div class="menu_section">
+          <div class="row">
+              <input type="submit" value="Create a team" id="createTeamButton">
+          </div> 
+          <br>
+          <div class="row">
+              <a href="/join">
+                  <input type="submit" value="Join an existing team">
+              </a>
+          </div>
+      </div>
     </div>
-    <script type="module" src="/src/app.js"></script>
-</body>
+
+    <div id="create-team-view" style="display: none;">
+      <h2>Create a new team</h2>
+      <form id="teamForm">
+          <label for="teamNameInput">Team name</label>
+          <input type="text" id="teamNameInput" name="teamName" required>
+          <br>
+          <label for="teamPasswordInput">Password</label>
+          <input type="password" id="teamPasswordInput" name="teamPassword" required>
+          <br>
+          <button type="submit">Create</button>
+      </form>
+      <div id="formResponse"></div>
+      <div id="error-container">
+        <span id="error-message"></span>
+        <button id="backButton">Back</button>
+      </div>
+    </div>
+
+    <div id="identification-view" style="display: none;">
+      <h2>Welcome to team <span id="teamNameDisplay"></span></h2>
+      <div class="menu_section">
+        <div class="row">
+          <button id="createPlayerButton">New player</button>
+        </div>
+        <br>
+        <div class="row">
+          <button id="identifyPlayerButton">Join team</button>
+        </div>
+      </div>
+    </div>
+
+      <div id="create-player-view" style="display: none;">
+        <h2>Create a new player</h2>
+        <form id="createPlayerForm">
+          <div class="row">
+            <label for="newPlayerNameInput">Player name</label>
+            <input type="text" id="newPlayerNameInput" name="newPlayerName" required>  
+          </div>
+          <button type="submit">Create</button>
+        </form>
+        <div id="formResponse"></div>
+          <div id="error-container">
+          <span id="error-message"></span>
+          <button id="backButtonCreatePlayer">Back</button>
+        </div>
+      </div>
+
+      <div id="identify-player-view" style="display: none;">
+        <h2>Identify as an existing player</h2>
+        <form id="identifyPlayerForm">
+          <label for="existingPlayerNameInput">Player name</label>
+          <input type="text" id="existingPlayerNameInput" name="existingPlayerName" required>
+          <br>
+          <button type="submit">Identify</button>
+        </form>
+        <div id="formResponse"></div>
+        <div id="error-container">
+          <span id="error-message"></span>
+          <button id="backButtonIdentifyPlayer">Back</button>
+        </div>
+      </div>
+
+    <div id="dashboard-view" style="display: none;">
+      <h2><span id="teamNameDisplay"></span> dashboard</h2>
+      <h3>Players</h3>
+
+      <div class="row">
+        <span id="playerNameDisplay"></span>
+        <span id="playerScoreDisplay"></span>
+      </div>
+
+      <div class="menu_section">
+        <div class="row">
+          <button id="createMatchButton">Create match</button>
+        </div>
+        <br>
+        <div class="row">
+          <button id="ratePlayersButton">Rate players</button>
+        </div>
+        <div id="formResponse"></div>
+        <div id="error-container">
+          <span id="error-message"></span>
+        </div>  
+      </div>  
+    </div>
+
+    <div id="footer-placeholder"></div>
+  <script src="/src/env.js" defer></script>
+  <script src="/src/app.js" defer></script>
+  <script src="/static/js/header.js" defer></script>
+  <script src="/static/js/footer.js" defer></script>  
+  <script src="/static/js/bootstrap.js"></script>        
+  </body>
 </html>
