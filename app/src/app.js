@@ -242,7 +242,7 @@ async function joinTeam(apiGatewayUrl, teamName, teamPassword) {
 // Create a new player
 async function createPlayer(apiGatewayUrl, teamId, playerName) {
     try {
-        const data = { player_team_id: teamId, player_name: playerName };
+        const data = { team_id: teamId, player_name: playerName };
         const response = await fetch(`${apiGatewayUrl}/team/player/create`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -255,7 +255,7 @@ async function createPlayer(apiGatewayUrl, teamId, playerName) {
             // Check this response data
             sessionStorage.setItem('teamId', responseData.player_team_id);
             sessionStorage.setItem('teamName', responseData.team_name);
-            sessionStorage.setItem('players', JSON.stringify(responseData.players));
+            sessionStorage.setItem('playersData', JSON.stringify(responseData.players_data));
             showDashboardView(responseData.players);
         } else {
             errorMessage.style.display = 'block';
@@ -284,7 +284,7 @@ function populatePlayerTable(players) {
         row.appendChild(nameCell);
 
         const ratingCell = document.createElement('td');
-        ratingCell.textContent = player.averageRating.toFixed(2);
+        ratingCell.textContent = player.rating.toFixed(2);
         ratingCell.classList.add('read-only');
         row.appendChild(ratingCell);
 
