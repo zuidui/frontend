@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const env = await loadEnvVariables();
-    const apiGatewayUrl = `http://${env.API_GATEWAY_HOST}:${env.API_GATEWAY_PORT}/v1`;
+    const apiGatewayHost = os.GetEnv('API_GATEWAY_HOST') || env.API_GATEWAY_HOST;
+    const apiGatewayPort = os.GetEnv('API_GATEWAY_PORT') || env.API_GATEWAY_PORT;
+    const apiGatewayUrl = `http://${apiGatewayHost}:${apiGatewayPort}/v1`;
     console.log('API Gateway URL:', apiGatewayUrl);
     console.log('Environment variables:', env);
 
