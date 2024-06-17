@@ -78,7 +78,7 @@
         <h2>Who are you?</h2>
         <form id="identifyPlayerForm">
             <input id="existingPlayerNameInput" type="text" placeholder="Player name"/>
-            <button type="submit">Join</button>
+            <button type="submit">Identify</button>
         </form>
         <div class="error-container">
           <span id="identify-player-error-message"></span>
@@ -88,33 +88,33 @@
       </div>
     </div>
 
-  <div id="dashboard-view" class="common-view">
-    <h2>Team <span id="dashboardTeamNameDisplay"></span> dashboard</h2>
-    <h3>Squad</h3>
-      <div class="menu_section">
-        <div class="row">
-            <button id="ratePlayersButton">Rate players</button>
-        </div>
-        <div class="row">
-          <button id="createPlayerButton">Add new player</button>
-        </div>        
-      </div>
+    <div id="dashboard-view" class="common-view">
+      <h2>Team <span id="dashboardTeamNameDisplay"></span> dashboard</h2>
       <div id="playerTableContainer" style="display:none;">
-        <table id="playerTable">
+        <form id="ratePlayersForm">
+          <table id="playerTable">
             <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Average rating</th>
-                    <th>Score</th>
-                </tr>
+              <tr>
+                <th>Name</th>
+                <th>Average rating</th>
+                <th>Your score</th>
+              </tr>
             </thead>
             <tbody id="playerTableBody">
-                <!-- Player rows will be inserted here dynamically -->
             </tbody>
-        </table>
+          </table>
+          <button type="submit">Submit Ratings</button>
+        </form>
       </div>
-    </div>  
-  </div>
+      <div class="menu_section">
+        <div class="row">
+          <button id="ratePlayersButton">Rate players</button>
+        </div>
+        <div class="row">
+          <button id="addPlayerButton">Add new player</button>
+        </div>
+      </div>
+    </div>
   
   <div id="footer-placeholder"></div>
   

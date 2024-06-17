@@ -317,6 +317,66 @@ header, h1, h2, h3, h4, h5, h6 {
 }
 
 
+/* Modern Table Styles */
+#playerTable {
+  width: 90%;
+  max-width: 800px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center; /* Center all table components */
+}
+
+#playerTable th {
+  background-color: #2B7A78;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 10px 15px;
+  text-align: center; /* Center text in headers */
+}
+
+#playerTable td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #dddddd;
+  text-align: center; /* Center text in cells */
+}
+
+#playerTable td input[type="number"] {
+  width: 50px; /* Adjust the width of the rate field */
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center; /* Center the number */
+  margin: 0 auto; /* Center the input within the cell */
+  display: block; /* Ensure the input is centered */
+}
+
+#playerTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+#ratePlayersButton,
+#addPlayerButton {
+  margin-top: 20px;
+  background-color: #3AAFA9;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+#ratePlayersButton:hover,
+#addPlayerButton:hover {
+  background-color: #2B7A78;
+}
+
 /* Feedback messages styles */
 #create-team-error-message,
 #create-player-error-message,

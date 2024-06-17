@@ -1,13 +1,11 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const env = await loadEnvVariables();
-    const hostName = env.HOST_NAME;
-    const hostPort = env.APP_PORT;
-    const apiGatewayUrl = `http://${hostName}:${hostPort}/api/v1`;
+    const apiGatewayUrl = `http://${env.API_GATEWAY_HOST}:${env.API_GATEWAY_PORT}/v1`;
     console.log('API Gateway URL:', apiGatewayUrl);
+    console.log('Environment variables:', env);
 
     // Restore view and data on page load
     const currentView = sessionStorage.getItem('currentView');
-    const teamId = sessionStorage.getItem('teamId');
     const teamName = sessionStorage.getItem('teamName');
 
     switch (currentView) {
@@ -27,8 +25,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             showIdentifyPlayerView();
             break;
         case 'dashboard-view':
-            const players = JSON.parse(sessionStorage.getItem('players'));
-            showDashboardView(players);
+            showDashboardView();
             break;
         default:
             showMainView();
@@ -39,6 +36,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('createTeamButton').addEventListener('click', showCreateTeamView);
     document.getElementById('joinTeamButton').addEventListener('click', showTeamIdentificationView);
     document.getElementById('createPlayerButton').addEventListener('click', showCreatePlayerView);
+    document.getElementById('addPlayerButton').addEventListener('click', showCreatePlayerView);
     document.getElementById('identifyPlayerButton').addEventListener('click', showIdentifyPlayerView);
     document.getElementById('ratePlayersButton').addEventListener('click', function() {
         document.getElementById('playerTableContainer').style.display = 'block';
@@ -65,24 +63,25 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('createPlayerForm').addEventListener('submit', async function (event) {
         event.preventDefault();
         const playerName = document.getElementById('newPlayerNameInput').value;
-        const teamId =  sessionStorage.getItem('teamId');
-        await createPlayer(apiGatewayUrl, teamId, playerName);
+        const teamName = sessionStorage.getItem('teamName');
+        await createPlayer(apiGatewayUrl, teamName, playerName);
     });
 
     document.getElementById('identifyPlayerForm').addEventListener('submit', async function (event) {
         event.preventDefault();
         const playerName = document.getElementById('existingPlayerNameInput').value;
-        const teamId = document.getElementById('teamIdDisplay').textContent;
-        await identifyPlayer(apiGatewayUrl, teamId, playerName);
+        const teamName = sessionStorage.getItem('teamName');
+        await identifyPlayer(apiGatewayUrl, teamName, playerName);
     });
 
     document.getElementById('ratePlayersForm').addEventListener('submit', async function (event) {
         event.preventDefault();
         const teamId = document.getElementById('teamIdDisplay').textContent;
-        const players = JSON.parse(sessionStorage.getItem('players'));
-        const ratingInputs = document.querySelectorAll('#playerTableBody input');
-        const ratings = Array.from(ratingInputs).map(input => parseInt(input.value));
-        await ratePlayers(apiGatewayUrl, teamId, players, ratings);
+        const players = JSON.parse(sessionStorage.getItem('playersData'));
+        const ratingInputs = document.querySelectorAll('#playerTableBody input[type="number"]');
+        const ratings = Array.from(ratingInputs).map(input => parseInt(input.value, 10));
+        const playerRatings = players.map((player, index) => ({ playerId: player.id, rating: ratings[index] }));
+        await ratePlayers(apiGatewayUrl, teamId, playerRatings);
     });
 
     // Event listeners for table row clicks
@@ -149,6 +148,7 @@ function showIdentificationView() {
     hideAllViews();
     document.getElementById('identification-view').style.display = 'block';
     const teamName = sessionStorage.getItem('teamName');
+
     if (teamName) document.getElementById('identificationTeamNameDisplay').textContent = teamName;
     sessionStorage.setItem('currentView', 'identification-view');
 }
@@ -170,13 +170,15 @@ function showIdentifyPlayerView() {
 }
 
 // Show the dashboard view
-async function showDashboardView(players) {
+async function showDashboardView() {
     hideAllViews();
     document.getElementById('dashboard-view').style.display = 'block';
     sessionStorage.setItem('currentView', 'dashboard-view');
     const teamName = sessionStorage.getItem('teamName');
+    const players = JSON.parse(sessionStorage.getItem('playersData'));
     document.getElementById('dashboardTeamNameDisplay').textContent = teamName;
     populatePlayerTable(players);
+    document.getElementById('playerTableContainer').style.display = 'block';
 }
 
 // Create a new team
@@ -192,8 +194,8 @@ async function createTeam(apiGatewayUrl, teamName, teamPassword) {
         const errorMessage = document.getElementById('create-team-error-message');
         if (response.ok) {
             errorMessage.style.display = 'none';
-            sessionStorage.setItem('teamId', responseData.team_id);
             sessionStorage.setItem('teamName', responseData.team_name);
+            sessionStorage.setItem('teamPassword', teamPassword);
             showCreatePlayerView();
         } else {
             errorMessage.style.display = 'block';
@@ -222,8 +224,8 @@ async function joinTeam(apiGatewayUrl, teamName, teamPassword) {
         const errorMessage = document.getElementById('join-team-error-message');
         if (response.ok) {
             errorMessage.style.display = 'none';
-            sessionStorage.setItem('teamId', responseData.team_id);
             sessionStorage.setItem('teamName', responseData.team_name);
+            sessionStorage.setItem('teamPassword', teamPassword);
             showIdentificationView();
         } else {
             errorMessage.style.display = 'block';
@@ -240,9 +242,9 @@ async function joinTeam(apiGatewayUrl, teamName, teamPassword) {
 }
 
 // Create a new player
-async function createPlayer(apiGatewayUrl, teamId, playerName) {
+async function createPlayer(apiGatewayUrl, teamName, playerName) {
     try {
-        const data = { team_id: teamId, player_name: playerName };
+        const data = { team_name: teamName, player_name: playerName };
         const response = await fetch(`${apiGatewayUrl}/team/player/create`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -252,11 +254,9 @@ async function createPlayer(apiGatewayUrl, teamId, playerName) {
         const errorMessage = document.getElementById('create-player-error-message');
         if (response.ok) {
             errorMessage.style.display = 'none';
-            // Check this response data
-            sessionStorage.setItem('teamId', responseData.player_team_id);
             sessionStorage.setItem('teamName', responseData.team_name);
             sessionStorage.setItem('playersData', JSON.stringify(responseData.players_data));
-            showDashboardView(responseData.players);
+            showDashboardView();
         } else {
             errorMessage.style.display = 'block';
             errorMessage.textContent = `Error creating player: ${responseData.message || 'Unknown error'}`;
@@ -271,6 +271,65 @@ async function createPlayer(apiGatewayUrl, teamId, playerName) {
    }
 }
 
+async function identifyPlayer(apiGatewayUrl, teamName, playerName) {
+    try {
+        const data = { team_name: teamName, player_name: playerName };
+        const response = await fetch(`${apiGatewayUrl}/player/join`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        });
+        const responseData = await response.json();
+        const errorMessage = document.getElementById('identify-player-error-message');
+        if (response.ok) {
+            errorMessage.style.display = 'none';
+            sessionStorage.setItem('teamName', responseData.team_name);
+            sessionStorage.setItem('playerName', playerName);
+            sessionStorage.setItem('playersData', JSON.stringify(responseData.players_data));
+            showDashboardView();
+        } else {
+            errorMessage.style.display = 'block';
+            errorMessage.textContent = `Error identifying player: ${responseData.message || 'Unknown error'}`;
+            if (responseData.errors) {
+                errorMessage.textContent += `: ${responseData.errors.join(', ')}`;
+            }
+        }
+    } catch (error) {
+        console.error('Error identifying player:', error);
+        document.getElementById('identify-player-error-message').style.display = 'block';
+        document.getElementById('identify-player-error-message').textContent = 'Player name is incorrect';
+    }
+}
+
+async function ratePlayers(apiGatewayUrl, teamId, playerRatings) {
+    try {
+        const data = { team_id: teamId, player_ratings: playerRatings };
+        const response = await fetch(`${apiGatewayUrl}/team/player/rate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        });
+        const responseData = await response.json();
+        const errorMessage = document.getElementById('rate-players-error-message');
+        if (response.ok) {
+            errorMessage.style.display = 'none';
+            sessionStorage.setItem('playersData', JSON.stringify(responseData.players_data));
+            showDashboardView();
+        } else {
+            errorMessage.style.display = 'block';
+            errorMessage.textContent = `Error rating players: ${responseData.message || 'Unknown error'}`;
+            if (responseData.errors) {
+                errorMessage.textContent += `: ${responseData.errors.join(', ')}`;
+            }
+        }
+    } catch (error) {
+        console.error('Error rating players:', error);
+        document.getElementById('rate-players-error-message').style.display = 'block';
+        document.getElementById('rate-players-error-message').textContent = 'Error rating players';
+    }
+}
+
+
 // Fetch all players for the current team
 function populatePlayerTable(players) {
     const playerTableBody = document.getElementById('playerTableBody');
@@ -280,11 +339,11 @@ function populatePlayerTable(players) {
         const row = document.createElement('tr');
 
         const nameCell = document.createElement('td');
-        nameCell.textContent = player.name;
+        nameCell.textContent = player.player_name;
         row.appendChild(nameCell);
 
         const ratingCell = document.createElement('td');
-        ratingCell.textContent = player.rating.toFixed(2);
+        ratingCell.textContent = player.player_average_rating.toFixed(2);
         ratingCell.classList.add('read-only');
         row.appendChild(ratingCell);
 
