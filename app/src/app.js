@@ -1,10 +1,9 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const env = await loadEnvVariables();
-    // FIXME: need to manually set the API Gateway URL for now
-    //const apiGatewayHost = os.GetEnv('API_GATEWAY_HOST') || env.API_GATEWAY_HOST;
-    //const apiGatewayPort = os.GetEnv('API_GATEWAY_PORT') || env.API_GATEWAY_PORT;
-    const apiGatewayUrl = `http://${env.API_GATEWAY_HOST}/v1`;
-    //const apiGatewayUrl = `http://localhost:8081/v1`;
+    // FIXME: check how to retrieve the API Gateway URL from the environment variables or add conditional logic
+    //const apiGatewayUrl = `http://localhost:8081/api/v1`; // Local testing
+    //const apiGatewayUrl = `http://tfm-local/api/v1`; // Minikube
+    const apiGatewayUrl = `http://${env.API_GATEWAY_HOST}/api/v1`; // EKS
     console.log('API Gateway URL:', apiGatewayUrl);
     console.log('Environment variables:', env);
 
