@@ -37,10 +37,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById('joinTeamButton').addEventListener('click', showTeamIdentificationView);
     document.getElementById('createPlayerButton').addEventListener('click', showCreatePlayerView);
     document.getElementById('addPlayerButton').addEventListener('click', showCreatePlayerView);
-    document.getElementById('identifyPlayerButton').addEventListener('click', showIdentifyPlayerView);
-    document.getElementById('ratePlayersButton').addEventListener('click', function() {
-        document.getElementById('playerTableContainer').style.display = 'block';
-    });    
+    document.getElementById('identifyPlayerButton').addEventListener('click', showIdentifyPlayerView);  
     document.getElementById('backButtonCreateTeam').addEventListener('click', showMainView);
     document.getElementById('backButtonJoinTeam').addEventListener('click', showMainView);
     document.getElementById('backButtonCreatePlayer').addEventListener('click', showIdentificationView);
