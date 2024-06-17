@@ -41,7 +41,7 @@ show-env:  ## Show the environment variables.
 .PHONY: clean
 clean:  ## Clean the app.
 	@echo "Cleaning $(IMAGE_NAME) docker image."
-	docker-compose -f ./app/docker-compose.yml down --rmi all --volumes
+	docker-compose -f ./app/docker-compose.yml down
 
 .PHONY: build
 build:  ## Build the app.
@@ -49,7 +49,7 @@ build:  ## Build the app.
 	docker build -t $(REGISTRY_PRE):$(IMAGE_VERSION) ./app
 
 .PHONY: run
-run:  ## Start the app in development mode.
+run:  build ## Start the app in development mode.
 	@echo "Starting $(IMAGE_NAME) in development mode."
 	docker-compose -f ./app/docker-compose.yml up --build $(IMAGE_NAME)
 
@@ -71,7 +71,6 @@ publish-image-pro:  ## Publish the latest release to the registry.
 	@docker push $(REGISTRY_PRO):$(LATEST_VERSION)
 	@docker push $(REGISTRY_PRO):latest
 	@if [ "$(GH_TAG)" = "$(IMAGE_VERSION)" ]; then \
-		echo "Creating release in GitHub"; \
 	    git tag -d $(LATEST_VERSION); \
 		git push origin --delete $(LATEST_VERSION); \
 	    gh release delete $(LATEST_VERSION) --yes; \

@@ -1,113 +1,125 @@
 <!doctype html>
+
 <html lang="en">
   <body>
-    <div id="header-placeholder"></div>
     
-    <div id="main-view">
+    <div id="header-placeholder"></div>
+
+    <div id="main-view" class="common-view">
       <div class="menu_section">
           <div class="row">
-              <input type="submit" value="Create a team" id="createTeamButton">
-          </div> 
-          <br>
+              <button id="createTeamButton">Create a team</button>
+          </div>
           <div class="row">
-              <a href="/join">
-                  <input type="submit" value="Join an existing team">
-              </a>
+              <button id="joinTeamButton">Join an existing team</button>
           </div>
       </div>
     </div>
 
-    <div id="create-team-view" style="display: none;">
-      <h2>Create a new team</h2>
-      <form id="teamForm">
-          <label for="teamNameInput">Team name</label>
-          <input type="text" id="teamNameInput" name="teamName" required>
-          <br>
-          <label for="teamPasswordInput">Password</label>
-          <input type="password" id="teamPasswordInput" name="teamPassword" required>
-          <br>
-          <button type="submit">Create</button>
+    <div id="create-team-view" class="common-view">
+        <h2>Create a new team</h2>
+        <form id="createTeamForm">
+            <input id="createTeamNameInput" type="text" placeholder="Team name"/>
+            <input id="createTeamPasswordInput" type="password" placeholder="Password"/>
+            <button type="submit">Create</button>
+        </form>
+        <div class="error-container">
+          <span id="create-team-error-message"></span>
+        </div>          
+        <div id="backButtonCreateTeam-container">
+          <button id="backButtonCreateTeam">Back</button>
+      </div>
+    </div>
+
+    <div id="join-team-view" class="common-view">
+      <h2>Join an existing team</h2>
+      <form id="joinTeamForm">
+          <input id="joinTeamNameInput" type="text" placeholder="Team name"/>
+          <input id="joinTeamPasswordInput" type="password" placeholder="Password"/>
+          <button type="submit">Join</button>
       </form>
-      <div id="formResponse"></div>
-      <div id="error-container">
-        <span id="error-message"></span>
-        <button id="backButton">Back</button>
+      <div class="error-container">
+        <span id="join-team-error-message"></span>
+      </div>         
+      <div id="backButtonJoinTeam-container">
+          <button id="backButtonJoinTeam">Back</button>
       </div>
+  </div>    
+
+    <div id="identification-view" class="common-view">
+        <h2>Welcome to the team <span id="identificationTeamNameDisplay"></span></h2>
+        <p>Are you already part of this team?</p>
+        <div class="menu_section identification-buttons">
+            <div class="row">
+                <button id="createPlayerButton">New player</button>
+            </div>
+            <div class="row">
+                <button id="identifyPlayerButton">Join</button>
+            </div>
+        </div>
     </div>
 
-    <div id="identification-view" style="display: none;">
-      <h2>Welcome to team <span id="teamNameDisplay"></span></h2>
-      <div class="menu_section">
-        <div class="row">
-          <button id="createPlayerButton">New player</button>
-        </div>
-        <br>
-        <div class="row">
-          <button id="identifyPlayerButton">Join team</button>
-        </div>
-      </div>
-    </div>
-
-      <div id="create-player-view" style="display: none;">
-        <h2>Create a new player</h2>
+    <div id="create-player-view" class="common-view">
+      <h2>Team <span id="createPlayerTeamNameDisplay"></span></h2>
+        <h3>Create a new player</h3>
         <form id="createPlayerForm">
-          <div class="row">
-            <label for="newPlayerNameInput">Player name</label>
-            <input type="text" id="newPlayerNameInput" name="newPlayerName" required>  
-          </div>
-          <button type="submit">Create</button>
+            <input id="newPlayerNameInput" type="text" placeholder="Player name"/>
+            <button type="submit">Create</button>
         </form>
-        <div id="formResponse"></div>
-          <div id="error-container">
-          <span id="error-message"></span>
-          <button id="backButtonCreatePlayer">Back</button>
-        </div>
-      </div>
-
-      <div id="identify-player-view" style="display: none;">
-        <h2>Identify as an existing player</h2>
-        <form id="identifyPlayerForm">
-          <label for="existingPlayerNameInput">Player name</label>
-          <input type="text" id="existingPlayerNameInput" name="existingPlayerName" required>
-          <br>
-          <button type="submit">Identify</button>
-        </form>
-        <div id="formResponse"></div>
-        <div id="error-container">
-          <span id="error-message"></span>
-          <button id="backButtonIdentifyPlayer">Back</button>
-        </div>
-      </div>
-
-    <div id="dashboard-view" style="display: none;">
-      <h2><span id="teamNameDisplay"></span> dashboard</h2>
-      <h3>Players</h3>
-
-      <div class="row">
-        <span id="playerNameDisplay"></span>
-        <span id="playerScoreDisplay"></span>
-      </div>
-
-      <div class="menu_section">
-        <div class="row">
-          <button id="createMatchButton">Create match</button>
-        </div>
-        <br>
-        <div class="row">
-          <button id="ratePlayersButton">Rate players</button>
-        </div>
-        <div id="formResponse"></div>
-        <div id="error-container">
-          <span id="error-message"></span>
+        <div class="error-container">
+          <span id="create-player-error-message"></span>
         </div>  
-      </div>  
+        <div id="backButtonCreatePlayer-container">
+          <button id="backButtonCreatePlayer">Back</button>
+      </div>
     </div>
 
-    <div id="footer-placeholder"></div>
+    <div id="identify-player-view" class="common-view">
+        <h2>Who are you?</h2>
+        <form id="identifyPlayerForm">
+            <input id="existingPlayerNameInput" type="text" placeholder="Player name"/>
+            <button type="submit">Identify</button>
+        </form>
+        <div class="error-container">
+          <span id="identify-player-error-message"></span>
+        </div>  
+        <div id="backButtonIdentifyPlayer-container">
+          <button id="backButtonIdentifyPlayer">Back</button>
+      </div>
+    </div>
+
+    <div id="dashboard-view" class="common-view">
+      <h2><span id="dashboardTeamNameDisplay"></span> dashboard</h2>
+      <div id="playerTableContainer" style="display:none;">
+        <form id="ratePlayersForm">
+          <table id="playerTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Average rating</th>
+                <th>Your score</th>
+              </tr>
+            </thead>
+            <tbody id="playerTableBody">
+            </tbody>
+          </table>
+          <button type="submit">Submit Ratings</button>
+        </form>
+      </div>
+      <div class="menu_section">
+        <div class="row">
+          <button id="addPlayerButton">Add new player</button>
+        </div>
+      </div>
+    </div>
+  
+  <div id="footer-placeholder"></div>
+  
   <script src="/src/env.js" defer></script>
   <script src="/src/app.js" defer></script>
   <script src="/static/js/header.js" defer></script>
   <script src="/static/js/footer.js" defer></script>  
-  <script src="/static/js/bootstrap.js"></script>        
+  <script src="/static/js/bootstrap.js"></script>     
+
   </body>
 </html>
