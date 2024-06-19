@@ -53,7 +53,6 @@ run:  build ## Start the app in development mode.
 	@echo "Starting $(IMAGE_NAME) in development mode."
 	docker-compose -f ./app/docker-compose.yml up --build $(IMAGE_NAME)
 
-
 .PHONY: publish-image-pre
 publish-image-pre: build ## Push the release candidate to the registry.
 	@echo "Publishing the image as release candidate -  $(REGISTRY_PRE):$(IMAGE_VERSION)-rc$(NEXT_RC)"
