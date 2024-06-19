@@ -1,5 +1,10 @@
 # Zuidui frontend
 
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/zuidui/frontend)
+![Docker Hub Image Version (latest by date)](https://img.shields.io/docker/v/zuidui/frontend?label=docker%20hub)
+![GitHub](https://img.shields.io/github/license/zuidui/frontend)
+
+
 ## Overview
 
 This is the frontend part of the Zuidui project. It is a simple nginx server that serves the static files of the frontend together with the API requests. The API requests are proxied to the backend server and all services are interconnected within a Docker network named `zuidui`.
