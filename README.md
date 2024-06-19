@@ -18,8 +18,9 @@ Ensure you have the following installed on your system:
   - `Dockerfile`: Defines the Docker image for the frontend service.
   - `nginx.conf`: Configuration file for Nginx.
   - `public/`: Contains static HTML files and assets.
-  - `src/`: Contains the source code for the application.
-- `.env`: Contains environment variables used by Docker Compose and the services. Depending on the environment, you may need to change the `CONTEXT` value to `local`, `minikube`, or `eks`.
+    - `src/`: Contains the source code for the application.
+    - `.env`: Contains environment variables used by Docker Compose and the services. Depending on the environment, you may need to change the `CONTEXT` value to `local`, `minikube`, or `eks`.
+    - `static/`: Contains the static files for the application.
 - `Makefile`: Provides a set of commands to automate common tasks.
 - `.githbu/workflows/`: Contains the GitHub Actions workflows for CI.
 

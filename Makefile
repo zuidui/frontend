@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-include app/.env
+include ./app/public/.env
 
 export REGISTRY_PRE=$(DOCKERHUB_USERNAME)/$(IMAGE_NAME)-dev
 export REGISTRY_PRO=$(DOCKERHUB_USERNAME)/$(IMAGE_NAME)
@@ -51,7 +51,7 @@ build:  ## Build the app.
 .PHONY: run
 run:  build ## Start the app in development mode.
 	@echo "Starting $(IMAGE_NAME) in development mode."
-	docker-compose -f ./app/docker-compose.yml up --build $(IMAGE_NAME)
+	docker-compose --env-file ./app/public/.env -f ./app/docker-compose.yml up --build $(IMAGE_NAME)
 
 .PHONY: publish-image-pre
 publish-image-pre: build ## Push the release candidate to the registry.

@@ -11,9 +11,9 @@ services:
       - ${APP_PORT}:80
     volumes:
       - ./public:/usr/share/nginx/html
-      - ./nginx.conf:/etc/nginx/default.conf
-      - ./src:/usr/share/nginx/html/src
-      - ./.env:/usr/share/nginx/html/.env
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    env_file:
+      - ./public/.env
     networks:
       - zuidui
 
