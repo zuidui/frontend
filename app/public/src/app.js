@@ -97,11 +97,16 @@ function identifyPlayerHandler(apiGatewayUrl) {
 function ratePlayersHandler(apiGatewayUrl) {
     return async function (event) {
         event.preventDefault();
-        const teamId = document.getElementById('teamIdDisplay').textContent;
+        const teamName = document.getElementById('dashboardTeamNameDisplay').textContent;
         const players = JSON.parse(sessionStorage.getItem('playersData'));
-        const ratings = Array.from(document.querySelectorAll('#playerTableBody input[type="number"]')).map(input => parseInt(input.value, 10));
-        const playerRatings = players.map((player, index) => ({ playerId: player.id, rating: ratings[index] }));
-        await ratePlayers(apiGatewayUrl, teamId, playerRatings);
+        const ratings = Array.from(document.querySelectorAll('#playerTableBody input[type="number"]')).map(input => {
+            return input.value.trim() !== '' ? parseInt(input.value, 10) : 0;
+        });
+        const playerRatings = players.map((player, index) => ({
+            player_name: player.player_name,
+            player_score: ratings[index]
+        }));
+        await ratePlayers(apiGatewayUrl, teamName, playerRatings);
     };
 }
 
@@ -246,10 +251,10 @@ async function identifyPlayer(apiGatewayUrl, teamName, playerName) {
     }
 }
 
-async function ratePlayers(apiGatewayUrl, teamId, playerRatings) {
+async function ratePlayers(apiGatewayUrl, teamName, playersScore) {
     try {
-        const data = { team_id: teamId, player_ratings: playerRatings };
-        const response = await fetch(`${apiGatewayUrl}/team/player/rate`, {
+        const data = { team_name: teamName, players_data: playersScore };
+        const response = await fetch(`${apiGatewayUrl}/team/rate`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
